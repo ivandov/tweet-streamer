@@ -5,14 +5,7 @@ cache = cache({base: './'});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-  cache.get("lastUpdate", function(err, lastUpdate){
-    res.render('index',
-    { title: 'Express',
-      lastUpdate: lastUpdate
-    });
-  });
-
+  res.render('index', { title: 'Twitter Streamer'});
 });
 
 
