@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var cache = require('persistent-cache');
 
 cache = cache({base: './'});
 

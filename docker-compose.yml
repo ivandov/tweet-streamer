@@ -1,10 +1,10 @@
+#This file should only be used for local testing
+
 version: '2'
 services:
   fetcher:
     build: .
-    image: 9.47.80.57/ddc/twitter-fetcher-s390x:latest
+    image: 9.47.80.57/ddc/tweet-streamer-service-s390x:latest
     ports:
       - "3000"
     env_file: .env
-    environment:
-      - QUERY="IBM"

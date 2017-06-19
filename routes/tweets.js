@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var https = require('https');
-var cache = require('persistent-cache')
 
 cache = cache({base: './'});
 
