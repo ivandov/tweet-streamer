@@ -1,0 +1,9 @@
+#Node Files
+/node_modules
+/cache
+.env
+
+#OSX Files
+.DS_Store
+
+manifest.yml
