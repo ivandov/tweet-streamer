@@ -42,7 +42,6 @@ exports.stream = function stream(){
  * Note: The user object is define here:  https://dev.twitter.com/overview/api/users
  **/
 function twearch(term) {
-    console.log("Client:" + JSON.stringify(client))
     console.log("***** Streaming Tweets containing '"+term+"'. *****\n");
     if (clientstream==null || !clientstream.active) {
         client.stream('statuses/filter', {track: term}, function(stream) {

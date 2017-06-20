@@ -1,6 +1,7 @@
 var MongoClient = require('mongodb').MongoClient
 
 var db;
+var collection;
 mongoURI = "mongodb://" + process.env.MONGODB_HOST + ":"
                         + process.env.MONGODB_PORT + "/"
                         + process.env.DB_NAME
@@ -29,14 +30,17 @@ function initDB(next){
     else{
       console.log("MongoDB Connected successfully to " + process.env.DB_NAME);
       db = dbResp;
-      next();
+
+      // Create a capped collection with a max size of 500MB
+      db.createCollection("tweets", {capped:true, size: 524288000}, function(err, collectionResp) {
+        collection = collectionResp
+        next();
+      });
     }
   });
 }
 
 function insert(tweets){
-  // Get the tweets collection
-  var collection = db.collection('tweets');
   // Insert some tweets
   collection.insertMany(tweets, function(err, result) {
     if(err) console.error(err);
