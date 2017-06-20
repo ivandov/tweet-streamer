@@ -1,6 +1,5 @@
 var MongoClient = require('mongodb').MongoClient
 
-
 var db;
 mongoURI = "mongodb://" + process.env.MONGODB_HOST + ":"
                         + process.env.MONGODB_PORT + "/"
@@ -23,12 +22,15 @@ function initDB(next){
   console.log("Connecting to " + mongoURI);
   // Use connect method to connect to the server
   MongoClient.connect(mongoURI, function(err, dbResp) {
-    if(err) console.error(err);
-
-    console.log("MongoDB Connected successfully to " + process.env.DB_NAME);
-    db = dbResp;
-
-    next();
+    if(err){
+      console.error("Unable to connect to MongoDB");
+      return;
+    }
+    else{
+      console.log("MongoDB Connected successfully to " + process.env.DB_NAME);
+      db = dbResp;
+      next();
+    }
   });
 }
 
