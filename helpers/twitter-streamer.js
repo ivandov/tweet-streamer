@@ -50,7 +50,8 @@ function twearch(term) {
             clientstream.active = true;
             stream.on('data', function(tweet) {
                 if (isTweet(tweet)) {
-                    console.log(tweet.user.name+" (@"+tweet.user.screen_name+") says:\n"+tweet.text);
+                    // console.log(tweet.user.name+" (@"+tweet.user.screen_name+") says:\n"+tweet.text);
+                    console.log(tweet.text)
                     persist([tweet]);
                 }
             });

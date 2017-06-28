@@ -42,8 +42,13 @@ function initDB(next){
 
 function insert(tweets){
   // Insert some tweets
-  collection.insertMany(tweets, function(err, result) {
-    if(err) console.error(err);
-    else console.log("Inserted " + result.result.n + " tweets");
+  collection.insert(tweets, function(err, result) {
+    if(err){
+      console.log("Failed to insert tweet");
+      
+      //reset the db object to force reconnect
+      db = null;
+    }
+    else console.log("Inserted " + result.result.n + " tweet");
   });
 }
