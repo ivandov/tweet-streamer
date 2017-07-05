@@ -44,7 +44,7 @@ exports.stream = function stream(){
 function twearch(term) {
     console.log("***** Streaming Tweets containing '"+term+"'. *****\n");
     if (clientstream==null || !clientstream.active) {
-        client.stream('statuses/filter', {track: term}, function(stream) {
+        client.stream('statuses/filter', {track: term, language: "en", "filter_level": "low"}, function(stream) {
             clearTimeout(timer);
             clientstream = stream;
             clientstream.active = true;
