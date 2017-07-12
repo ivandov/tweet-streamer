@@ -1,11 +1,15 @@
 var Twitter = require('twitter');
 var _ = require('lodash');
+var swearjar = require('swearjar');
 
 var client;
 var term;
 var clientstream = null;
 var timer = null;
 var calm = 1;
+
+
+
 
 const isTweet = _.conforms({
     user: _.isObject,
@@ -24,7 +28,7 @@ function getClient() {
 
 exports.stream = function stream(){
   try {
-    term = process.env.QUERY;
+    term = process.env.QUERY.toLowerCase();
     console.log("Found QUERY set in .env");
   } catch (e) {
     console.log("QUERY not set as environment variable, unable to execute pull");
@@ -51,7 +55,6 @@ function twearch(term) {
             stream.on('data', function(tweet) {
                 if (isTweet(tweet)) {
                     // console.log(tweet.user.name+" (@"+tweet.user.screen_name+") says:\n"+tweet.text);
-                    console.log(tweet.text)
                     persist([tweet]);
                 }
             });
@@ -95,6 +98,17 @@ function twearch(term) {
 
 function persist(tweets){
   if(tweets.length == 0) return;
+
+  // only one tweet in the way this is setup
+  var text = tweets[0].text.toLowerCase();
+
+  // Do not send tweets with profanity
+  if(swearjar.profane(text)) return;
+
+  // Do not send tweet to Mongo if Retweet or doesn't have search term
+  if(!text.includes(term) || text.startsWith("rt")) return;
+
+  console.log(tweets[0].text)
 
   if(process.env.PERSIST){
     if(process.env.PERSIST.toUpperCase() === "CLOUDANT"){
