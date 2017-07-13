@@ -8,9 +8,6 @@ var clientstream = null;
 var timer = null;
 var calm = 1;
 
-
-
-
 const isTweet = _.conforms({
     user: _.isObject,
     id_str: _.isString,
@@ -59,6 +56,7 @@ function twearch(term) {
                 }
             });
             stream.on('end', function() {
+                console.warn("Stream ended, restarting client")
                 clientstream.active = false;
                 clearTimeout(timer);
                 timer = setTimeout(function () {
@@ -66,12 +64,12 @@ function twearch(term) {
                     if (clientstream.active) {
                         clientstream.destroy();
                     } else {
-                        twearch();
+                        twearch(term);
                     }
                 }, 1000 * calm * calm);
             });
             stream.on('error', function(error) {
-                console.log(error);
+                console.error(error);
                 if (error.message == "Status Code: 402") {
                     calm++;
                 }
@@ -79,22 +77,6 @@ function twearch(term) {
         });
     }
 }
-
-// app.get('/api/twearch', function(request, response) {
-//     term = request.query.term;
-//     calm = 1;
-//     clearTimeout(timer);
-//     if (clientstream!==null && clientstream.active) {
-//         clientstream.destroy();
-//     } else {
-//         twearch(term);
-//     }
-//     response.status(200);
-// 	response.setHeader('Content-Type', 'text/plain');
-//     response.write("Streaming Tweets containing '"+term+"'.");
-// 	response.end();
-// 	return;
-// });
 
 function persist(tweets){
   if(tweets.length == 0) return;
