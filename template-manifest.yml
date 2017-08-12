@@ -1,0 +1,19 @@
+---
+applications:
+- name: tweet-streamer-template
+  memory: 256M
+  disk_quota: 512M
+  buildpack: nodejs_buildpack
+  domain: mybluemix.net
+  command: node bin/www
+  timeout: 80
+  env:
+    TWITTER_CONSUMER_KEY: insert-key
+    TWITTER_CONSUMER_SECRET: insert-key
+    TWITTER_ACCESS_TOKEN_KEY: insert-key
+    TWITTER_ACCESS_TOKEN_SECRET: insert-key
+    QUERY: "query"
+    PERSIST: MONGODB
+    DB_NAME: tweets
+    MONGODB_HOST: securegateway-host
+    MONGODB_PORT: securegateway-port

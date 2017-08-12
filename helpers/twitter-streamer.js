@@ -84,11 +84,10 @@ function persist(tweets){
   // only one tweet in the way this is setup
   var text = tweets[0].text.toLowerCase();
 
-  // Do not send tweets with profanity
-  if(swearjar.profane(text)) return;
+  var filtered = filter(text);
 
-  // Do not send tweet to Mongo if Retweet or doesn't have search term
-  if(!text.includes(term) || text.startsWith("rt")) return;
+  // retrurn if tweet should be filtered out
+  if(filtered) return;
 
   console.log(tweets[0].text)
 
@@ -113,4 +112,19 @@ function persist(tweets){
       zkvsim.insert(tweets);
     }
   }
+}
+
+
+function filter(){
+
+  // Filter out tweets with profanity
+  if(process.env.FILTER_PROFANITY.toUpperCase() === "TRUE" && swearjar.profane(text)) return true;
+
+  // Filter out replies to tweets that match the search term
+  if(process.env.FILTER_REPLY.toUpperCase() === "TRUE" && !text.includes(term)) return true;
+
+  // Filter out retweets
+  if(process.env.FILTER_RT.toUpperCase() === "TRUE" && text.startsWith("rt")) return true;
+
+  return false;
 }
