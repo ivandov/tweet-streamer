@@ -115,7 +115,7 @@ function persist(tweets){
 }
 
 
-function filter(){
+function filter(text){
 
   // Filter out tweets with profanity
   if(process.env.FILTER_PROFANITY.toUpperCase() === "TRUE" && swearjar.profane(text)) return true;
